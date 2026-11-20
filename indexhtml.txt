@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>নির্বো ডেইলি হাব (Nirbo Daily Hub)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f4f6f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --border: #e2e8f0;
+      --ticker-bg: #1e3a8a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Hind Siliguri", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* একক স্টিকি টপ নেভিগেশন (হেডার + টিকার + ট্যাব/সার্চ) */
+    .sticky-top-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--card);
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.12);
+      border-bottom: 1px solid var(--border);
+    }
+
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .live-tag {
+      font-size: 0.7rem;
+      background: #16a34a;
+      color: #ffffff;
+      padding: 0.12rem 0.5rem;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .brand p {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+    }
+
+    .headline-ticker {
+      background: var(--ticker-bg);
+      color: #fff;
+      display: flex;
+      align-items: stretch;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      overflow: hidden;
+    }
+
+    .ticker-label {
+      background: #dc2626;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.35rem 0.85rem;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .ticker-track {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      min-height: 32px;
+    }
+
+    .ticker-move {
+      display: inline-block;
+      white-space: nowrap;
+      padding-left: 100%;
+      font-size: 0.86rem;
+      font-weight: 600;
+      animation: moveTicker 28s linear infinite;
+    }
+
+    .ticker-track:hover .ticker-move {
+      animation-play-state: paused;
+    }
+
+    @keyframes moveTicker {
+      0% {
+        transform: translateX(0%);
+      }
+      100% {
+        transform: translateX(-200%);
+      }
+    }
+
+    .nav-toolbar-wrap {
+      background: #ffffff;
+      padding: 0.6rem 1.25rem;
+    }
+
+    .toolbar {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    button, input, select {
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+
+    button {
+      cursor: pointer;
+      border: none;
+      padding: 0.45rem 0.85rem;
+      font-weight: 600;
+      transition: background-color 0.15s ease, color 0.15s ease, opacity 0.15s ease;
+    }
+
+    button:hover {
+      opacity: 0.94;
+    }
+
+    .tab-btn {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .search-box {
+      min-width: 210px;
+      flex: 0 1 260px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 0.48rem 0.7rem;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text);
+    }
+
+    input:focus {
+      outline: 2px solid rgba(37, 99, 235, 0.25);
+      background: #ffffff;
+    }
+
+    .container {
+      max-width: 1140px;
+      margin: 1.15rem auto 2.5rem;
+      padding: 0 1rem;
+    }
+
+    /* পরিমিত ফেসবুক-স্টাইল কভার ও প্রোফাইল ব্যানার */
+    .profile-hero {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 3px 12px rgba(15, 23, 42, 0.05);
+    }
+
+    .cover-banner {
+      height: 120px;
+      background: linear-gradient(120deg, #0f172a 0%, #1d4ed8 58%, #0284c7 100%);
+      position: relative;
+    }
+
+    .cover-banner::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.08) 0%, rgba(15, 23, 42, 0.35) 100%);
+    }
+
+    .hero-body {
+      padding: 0 1.25rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: -36px;
+      position: relative;
+      z-index: 4;
+      flex: 1;
+      min-width: 240px;
+    }
+
+    .avatar-box {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      border: 3px solid #ffffff;
+      background: #1d4ed8;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.55rem;
+      font-weight: 700;
+      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.16);
+      flex-shrink: 0;
+    }
+
+    .hero-text {
+      padding-top: 38px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    @media (max-width: 600px) {
+      .cover-banner {
+        height: 95px;
+      }
+      .avatar-box {
+        width: 66px;
+        height: 66px;
+        font-size: 1.35rem;
+        margin-top: -28px;
+      }
+      .hero-text {
+        padding-top: 0;
+      }
+    }
+
+    .hero-text h2 {
+      font-size: 1.15rem;
+      color: var(--primary);
+      margin-bottom: 0.15rem;
+    }
+
+    .hero-text p {
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .banner-btn {
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.48rem 0.9rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.86rem;
+      white-space: nowrap;
+      display: inline-block;
+    }
+
+    .banner-btn.secondary {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+
+    .division-bar {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 0.65rem 0.95rem;
+      margin-bottom: 1rem;
+      display: none;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .division-bar.active {
+      display: flex;
+    }
+
+    .division-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-right: 0.25rem;
+    }
+
+    .div-btn {
+      background: #f1f5f9;
+      color: var(--text);
+      padding: 0.34rem 0.7rem;
+      font-size: 0.82rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+    }
+
+    .div-btn.active {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.8rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.76rem;
+      font-weight: 700;
+      padding: 0.16rem 0.6rem;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: #1d4ed8;
+    }
+
+    .badge-div {
+      background: #ecfdf5;
+      color: #047857;
+    }
+
+    .badge-service {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 0.35rem;
+      color: var(--primary);
+    }
+
+    .extra-info {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.55rem 0.7rem;
+      font-size: 0.86rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .extra-info div + div {
+      margin-top: 0.2rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      white-space: pre-line;
+    }
+
+    .card-meta {
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.5rem;
+      padding-top: 0.55rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-link {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 0.88rem;
+    }
+
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin-top: 2rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+
+    .contact-box h2 {
+      font-size: 1.15rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.8rem;
+      margin-top: 0.75rem;
+    }
+
+    .contact-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 0.9rem;
+      font-size: 0.9rem;
+    }
+
+    .contact-item strong {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .contact-item a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 2.2rem 1rem;
+      color: var(--muted);
+      background: var(--card);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      grid-column: 1 / -1;
+    }
+  </style>
+</head>
+<body>
+  <div class="sticky-top-wrap">
+    <header>
+      <div class="brand">
+        <h1>নির্বো ডেইলি হাব <span class="live-tag">লাইভ</span></h1>
+        <p>চাকরির খবর, ডিজিটাল সেবা, পর্যটন গাইড, সরকারি মন্ত্রণালয় ও আমাদের সেবাসমূহ</p>
+      </div>
+    </header>
+
+    <div class="headline-ticker" aria-label="সর্বশেষ আপডেট">
+      <div class="ticker-label">আপডেট</div>
+      <div class="ticker-track">
+        <div class="ticker-move" id="tickerText"></div>
+      </div>
+    </div>
+
+    <div class="nav-toolbar-wrap">
+      <div class="toolbar">
+        <div class="tabs" id="categoryTabs"></div>
+        <div class="search-box">
+          <input type="search" id="searchInput" placeholder="তথ্য বা সেবা খুঁজুন..." />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container">
+    <section class="profile-hero">
+      <div class="cover-banner"></div>
+      <div class="hero-body">
+        <div class="hero-left">
+          <div class="avatar-box">নি</div>
+          <div class="hero-text">
+            <h2>নির্বো ডেইলি হাব</h2>
+            <p>প্রয়োজনীয় তথ্য, নির্দেশিকা এবং ব্যক্তিগত ডিজিটাল ও ডকুমেন্ট সেবা—সব এক জায়গায়।</p>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <a href="#contactSection" class="banner-btn secondary">যোগাযোগ</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="division-bar" id="divisionBar">
+      <span class="division-title">বিভাগ:</span>
+      <div id="divisionButtons" style="display:flex; flex-wrap:wrap; gap:0.4rem;"></div>
+    </div>
+
+    <section class="grid" id="cardsGrid"></section>
+
+    <section class="contact-box" id="contactSection">
+      <h2>যোগাযোগ ও সেবা অনুরোধ</h2>
+      <p style="color: var(--muted); font-size: 0.9rem;">যেকোনো সেবা নিতে, তথ্য সংশোধনের জানাতে বা পরামর্শ দিতে নিচের মাধ্যমে যোগাযোগ করতে পারেন।</p>
+      <div class="contact-grid">
+        <div class="contact-item">
+          <strong>ইমেইল</strong>
+          <a href="mailto:contact@example.com">contact@example.com</a>
+        </div>
+        <div class="contact-item">
+          <strong>সেবার মাধ্যম</strong>
+          <span>অনলাইন / দূরবর্তী সহায়তা</span>
+        </div>
+        <div class="contact-item">
+          <strong>নোট</strong>
+          <span>সরকারি বা নিয়োগ সংক্রান্ত তথ্য মূল উৎস থেকে যাচাই করে নিন।</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const PORTAL_DATA = {
+      tickerItems: [
+        "নির্বো ডেইলি হাব-এ স্বাগতম — তথ্য ও প্রয়োজনীয় সেবার কেন্দ্র",
+        "আমাদের সেবাসমূহ: ওয়েবসাইট/লোগো ডিজাইন, চাকরির আবেদন সহায়তা, ডিজিটাল ফর্ম পূরণ, তথ্য যাচাই, সিভি বানানো, জায়গার খতিয়ান বের করা ও ইমেজ/সিগনেচার ঠিক করা",
+        "স্ক্রল করলেও ওপরের মেনু ও সার্চ বক্স সবসময় হাতের কাছেই থাকবে"
+      ],
+      categories: [
+        "সব",
+        "চাকরির খবর",
+        "ডিজিটাল সেবা",
+        "পর্যটন গাইড",
+        "সরকারি মন্ত্রণালয়",
+        "আমাদের সেবাসমূহ"
+      ],
+      divisions: [
+        "সব বিভাগ",
+        "ঢাকা",
+        "চট্টগ্রাম",
+        "রাজশাহী",
+        "খুলনা",
+        "সিলেট",
+        "রংপুর",
+        "বরিশাল",
+        "ময়মনসিংহ"
+      ],
+      items: [
+        {
+          id: 1,
+          title: "ওয়েবসাইট / লোগো ডিজাইন",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "ব্র্যান্ডিং ও ওয়েব ডিজাইন",
+            "উপযোগী": "ব্যক্তিগত পেজ, পোর্টাল ও ছোট ব্যবসা"
+          },
+          description: "পরিচ্ছন্ন লেআউট, লোগো স্টাইল ও রেসপন্সিভ ওয়েব ডিজাইন সহায়তা প্রদান করা হয়।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 2,
+          title: "চাকরির আবেদন সহায়তা",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "আবেদন ফর্ম ও ডকুমেন্ট গাইডেন্স",
+            "সতর্কতা": "সঠিক তথ্য ও সময়সীমা মিলিয়ে আবেদন"
+          },
+          description: "চাকরির আবেদনের ধাপ, প্রয়োজনীয় কাগজপত্র প্রস্তুতি ও অনলাইন আবেদন প্রক্রিয়ায় সহায়তা।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 3,
+          title: "ডিজিটাল ফর্ম পূরণ",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "অনলাইন আবেদন ও রেজিস্ট্রেশন"
+          },
+          description: "বিভিন্ন অনলাইন ফর্ম নির্ভুলভাবে পূরণ ও প্রয়োজনীয় ফাইল সংযুক্ত করার কাজে সহায়তা।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 4,
+          title: "তথ্য যাচাই",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "সোর্স ও বিজ্ঞপ্তি ক্রস-চেক"
+          },
+          description: "বিভিন্ন বিজ্ঞপ্তি, লিংক বা তথ্যের গ্রহণযোগ্যতা ও মূল উৎস যাচাই করে সঠিক দিকনির্দেশনা।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 5,
+          title: "সিভি (CV) বানানো",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "আধুনিক ও পরিপাটি রিজিউমি"
+          },
+          description: "চাকরি বা অ্যাকাডেমিক আবেদনের উপযোগী গুছানো ও পরিচ্ছন্ন সিভি (CV) তৈরি করে দেওয়া হয়।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 6,
+          title: "জায়গার খতিয়ান বের করা",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "ভূমি ও খতিয়ান তথ্য সহায়তা",
+            "নোট": "প্রয়োজনীয় তথ্য ও বৈধ রেফারেন্স অনুযায়ী"
+          },
+          description: "জায়গার খতিয়ান সংক্রান্ত তথ্য অনুসন্ধান ও প্রাসঙ্গিক অনলাইন প্রক্রিয়ায় দিকনির্দেশনা।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 7,
+          title: "ইমেজ / সিগনেচার ঠিক করা",
+          category: "আমাদের সেবাসমূহ",
+          division: "",
+          extra: {
+            "সেবার ধরন": "সাইজ, ডাইমেনশন ও ফাইল ফরম্যাট"
+          },
+          description: "আবেদন বা পোর্টালের নির্ধারিত মাপ ও KB অনুযায়ী ছবি ও স্বাক্ষর ক্রপ, রিসাইজ ও পরিষ্কার করা।",
+          date: "সেবা চালু",
+          linkText: "সেবা নিতে যোগাযোগ",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 8,
+          title: "সরকারি ও বেসরকারি নিয়োগ তথ্য",
+          category: "চাকরির খবর",
+          division: "ঢাকা",
+          extra: {
+            "পরামর্শ": "মূল সার্কুলার ও শেষ তারিখ যাচাই করুন"
+          },
+          description: "বিভিন্ন নিয়োগ বিজ্ঞপ্তি ও প্রস্তুতির প্রয়োজনীয় তথ্য এখানে যুক্ত করতে পারেন।",
+          date: "আপডেটেড",
+          linkText: "যোগাযোগ করুন",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 9,
+          title: "ডিজিটাল নাগরিক সেবা পোর্টাল",
+          category: "ডিজিটাল সেবা",
+          division: "চট্টগ্রাম",
+          extra: {
+            "সুবিধা": "প্রয়োজনীয় অনলাইন সেবার লিংক ও গাইড"
+          },
+          description: "দৈনন্দিন দরকারি ডিজিটাল সেবার তথ্য ও লিংক এক জায়গায় সাজিয়ে রাখুন।",
+          date: "আপডেটেড",
+          linkText: "যোগাযোগ করুন",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 10,
+          title: "ভ্রমণ ও পর্যটন গাইড",
+          category: "পর্যটন গাইড",
+          division: "সিলেট",
+          extra: {
+            "বিষয়": "যাতায়াত, সময় ও ভ্রমণ সতর্কতা"
+          },
+          description: "বিভিন্ন দর্শনীয় স্থানের ভ্রমণ গাইড ও প্রয়োজনীয় নোট এখানে যুক্ত করতে পারেন।",
+          date: "আপডেটেড",
+          linkText: "যোগাযোগ করুন",
+          linkUrl: "#contactSection"
+        },
+        {
+          id: 11,
+          title: "মন্ত্রণালয় ও দপ্তর তথ্য",
+          category: "সরকারি মন্ত্রণালয়",
+          division: "ঢাকা",
+          extra: {
+            "উদ্দেশ্য": "প্রয়োজনীয় দপ্তরের তথ্য দ্রুত খুঁজে পাওয়া"
+          },
+          description: "বিভিন্ন মন্ত্রণালয় ও সরকারি দপ্তরের দরকারি তথ্যসূত্র এখানে রাখুন।",
+          date: "আপডেটেড",
+          linkText: "যোগাযোগ করুন",
+          linkUrl: "#contactSection"
+        }
+      ]
+    };
+
+    let state = {
+      activeCategory: "সব",
+      activeDivision: "সব বিভাগ",
+      searchQuery: ""
+    };
+
+    const tickerTextEl = document.getElementById("tickerText");
+    const categoryTabsEl = document.getElementById("categoryTabs");
+    const divisionBarEl = document.getElementById("divisionBar");
+    const divisionButtonsEl = document.getElementById("divisionButtons");
+    const searchInputEl = document.getElementById("searchInput");
+    const cardsGridEl = document.getElementById("cardsGrid");
+
+    function renderTicker() {
+      tickerTextEl.textContent = PORTAL_DATA.tickerItems.join("   •   ");
+    }
+
+    function renderTabs() {
+      categoryTabsEl.innerHTML = "";
+      PORTAL_DATA.categories.forEach((cat) => {
+        const btn = document.createElement("button");
+        btn.className = "tab-btn" + (state.activeCategory === cat ? " active" : "");
+        btn.textContent = cat;
+        btn.addEventListener("click", () => {
+          state.activeCategory = cat;
+          renderTabs();
+          toggleDivisionBar();
+          renderCards();
+        });
+        categoryTabsEl.appendChild(btn);
+      });
+    }
+
+    function toggleDivisionBar() {
+      const showDivs = state.activeCategory === "চাকরির খবর" || state.activeCategory === "পর্যটন গাইড";
+      divisionBarEl.classList.toggle("active", showDivs);
+      if (!showDivs) {
+        state.activeDivision = "সব বিভাগ";
+      }
+      renderDivisions();
+    }
+
+    function renderDivisions() {
+      divisionButtonsEl.innerHTML = "";
+      PORTAL_DATA.divisions.forEach((div) => {
+        const btn = document.createElement("button");
+        btn.className = "div-btn" + (state.activeDivision === div ? " active" : "");
+        btn.textContent = div;
+        btn.addEventListener("click", () => {
+          state.activeDivision = div;
+          renderDivisions();
+          renderCards();
+        });
+        divisionButtonsEl.appendChild(btn);
+      });
+    }
+
+    function renderCards() {
+      const q = state.searchQuery.trim().toLowerCase();
+
+      const filtered = PORTAL_DATA.items.filter((item) => {
+        const matchCat = state.activeCategory === "সব" || item.category === state.activeCategory;
+        const matchDiv = state.activeDivision === "সব বিভাগ" || item.division === state.activeDivision;
+
+        const extraText = item.extra ? Object.values(item.extra).join(" ") : "";
+        const searchable = `${item.title} ${item.category} ${item.division || ""} ${item.description} ${extraText}`.toLowerCase();
+        const matchSearch = !q || searchable.includes(q);
+
+        return matchCat && matchDiv && matchSearch;
+      });
+
+      cardsGridEl.innerHTML = "";
+
+      if (filtered.length === 0) {
+        cardsGridEl.innerHTML = `<div class="empty">আপনার অনুসন্ধান বা ফিল্টার অনুযায়ী কোনো তথ্য বা সেবা পাওয়া যায়নি।</div>`;
+        return;
+      }
+
+      filtered.forEach((item) => {
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const badgeClass = item.category === "আমাদের সেবাসমূহ" ? "badge badge-service" : "badge";
+        const extraEntries = item.extra ? Object.entries(item.extra) : [];
+        const extraHtml = extraEntries.length
+          ? `<div class="extra-info">${extraEntries
+              .map(([k, v]) => `<div><strong>${escapeHtml(k)}:</strong> ${escapeHtml(v)}</div>`)
+              .join("")}</div>`
+          : "";
+
+        card.innerHTML = `
+          <div>
+            <div class="badge-row">
+              <span class="${badgeClass}">${escapeHtml(item.category)}</span>
+              ${item.division ? `<span class="badge badge-div">${escapeHtml(item.division)}</span>` : ""}
+            </div>
+            <h3>${escapeHtml(item.title)}</h3>
+            ${extraHtml}
+            <p>${escapeHtml(item.description)}</p>
+          </div>
+          <div>
+            <div class="card-meta">
+              <span>${escapeHtml(item.date || "")}</span>
+              ${
+                item.linkUrl
+                  ? `<a class="card-link" href="${escapeAttr(item.linkUrl)}">${escapeHtml(item.linkText || "বিস্তারিত")}</a>`
+                  : ""
+              }
+            </div>
+          </div>
+        `;
+
+        cardsGridEl.appendChild(card);
+      });
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function escapeAttr(url) {
+      const trimmed = String(url ?? "").trim();
+      if (trimmed.startsWith("#") || trimmed.startsWith("https://") || trimmed.startsWith("http://") || trimmed.startsWith("mailto:")) {
+        return escapeHtml(trimmed);
+      }
+      return "#";
+    }
+
+    searchInputEl.addEventListener("input", (e) => {
+      state.searchQuery = e.target.value;
+      renderCards();
+    });
+
+    renderTicker();
+    renderTabs();
+    toggleDivisionBar();
+    renderCards();
+  </script>
+</body>
+</html>
